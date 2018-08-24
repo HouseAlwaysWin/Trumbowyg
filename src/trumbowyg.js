@@ -440,6 +440,8 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             'i': 'em',
             's': 'del',
             'strike': 'del',
+            'strong': 'b',
+            'em' : 'i',
             'div': 'p'
         },
 
@@ -1113,6 +1115,11 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
             t.saveRange();
             t.syncCode(force);
 
+            if(t.isIE){
+                t.semanticTag('strong');
+                t.semanticTag('em');
+            }
+
             if (t.o.semantic) {
                 t.semanticTag('b');
                 t.semanticTag('i');
@@ -1170,7 +1177,7 @@ Object.defineProperty(jQuery.trumbowyg, 'defaultOptions', {
 
             if (this.o.semantic != null && typeof this.o.semantic === 'object' && this.o.semantic.hasOwnProperty(oldTag)) {
                 newTag = this.o.semantic[oldTag];
-            } else if (this.o.semantic === true && this.DEFAULT_SEMANTIC_MAP.hasOwnProperty(oldTag)) {
+            } else if (this.o.semantic === true && this.DEFAULT_SEMANTIC_MAP.hasOwnProperty(oldTag) || this.isIE) {
                 newTag = this.DEFAULT_SEMANTIC_MAP[oldTag];
             } else {
                 return;
